@@ -1,0 +1,55 @@
+Logistic Regression with SEAL - Performans Analizi
+==================================================
+
+**Neden Logistic Regression?**
+Logistic Regression, sınıflandırma problemleri için kullanılan basit ve etkili bir yöntemdir. Bu çalışmada, şifrelenmiş ve şifrelenmemiş verilerle aynı doğruluk oranlarını elde etmek için kullanılmıştır.
+
+**Neden SEAL?**
+SEAL, Microsoft tarafından geliştirilen bir homomorfik şifreleme kütüphanesidir. Bu çalışmada, verilerin gizliliğini koruyarak makine öğrenimi modelleri üzerinde işlem yapmayı mümkün kılmak için kullanılmıştır.
+
+**SEAL ile Şifreleme Süreci:**
+- CKKS şifreleme şeması kullanıldı.
+- Polinom derecesi: 8192
+- Ölçek: 2^40
+- Şifreleme ve çözme işlemleri sırasında verinin matematiksel yapısı korundu.
+
+**Sonuçlar:**
+Şifrelenmemiş Veriler:
+Accuracy: 0.8015
+Confusion Matrix:
+[[4552  135]
+ [1056  257]]
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.81      0.97      0.88      4687
+           1       0.66      0.20      0.30      1313
+
+    accuracy                           0.80      6000
+   macro avg       0.73      0.58      0.59      6000
+weighted avg       0.78      0.80      0.76      6000
+
+Processing Time: 1.07 seconds
+
+Şifrelenmiş Veriler:
+Accuracy: 0.8015
+Confusion Matrix:
+[[4552  135]
+ [1056  257]]
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.81      0.97      0.88      4687
+           1       0.66      0.20      0.30      1313
+
+    accuracy                           0.80      6000
+   macro avg       0.73      0.58      0.59      6000
+weighted avg       0.78      0.80      0.76      6000
+
+Encryption Time: 11.99 seconds
+Decryption and Prediction Time: 3.38 seconds
+
+**Sonuçların Yorumu:**
+Şifrelenmiş ve şifrelenmemiş verilerle yapılan Logistic Regression işlemleri aynı doğruluk oranlarını vermiştir. Bu, SEAL'in verinin matematiksel yapısını koruduğunu göstermektedir. Ancak, şifreleme ve çözme işlemleri işlem süresini önemli ölçüde artırmıştır.
+
+Bu çalışma, homomorfik şifrelemenin gizlilik koruma açısından etkili bir yöntem olduğunu, ancak işlem süresi açısından maliyetli olduğunu göstermektedir.

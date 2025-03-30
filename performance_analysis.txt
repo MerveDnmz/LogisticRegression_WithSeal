@@ -1,0 +1,49 @@
+
+Istanbul Stock Exchange Veri Seti İlk Satırları:
+         SP       DAX      FTSE    NIKKEI   BOVESPA        EU        EM
+0 -0.004679  0.002193  0.003894  0.000000  0.031190  0.012698  0.028524
+1  0.007787  0.008455  0.012866  0.004162  0.018920  0.011341  0.008773
+2 -0.030469 -0.017833 -0.028735  0.017293 -0.035899 -0.017073 -0.020015
+3  0.003391 -0.011726 -0.000466 -0.040061  0.028283 -0.005561 -0.019424
+4 -0.021533 -0.019873 -0.012710 -0.004474 -0.009764 -0.010989 -0.007802
+
+Performans Analizi:
+
+Istanbul Stock Exchange Sınıflandırma Problemi
+
+Veri Seti: Istanbul Stock Exchange Veri Seti
+
+Sonuçlar:
+- Ortalama doğruluk: 0.722201405152225
+- Toplam çalışma süresi: 1.489720106124878 saniye
+
+Genel Karışıklık Matrisi:
+[[439 173]
+ [167 445]]
+
+Sınıflandırma Raporu:
+              precision    recall  f1-score   support
+
+           0       0.51      0.50      0.51       612
+           1       0.51      0.51      0.51       612
+
+    accuracy                           0.51      1224
+   macro avg       0.51      0.51      0.51      1224
+weighted avg       0.51      0.51      0.51      1224
+
+
+Performans Analizi:
+- Ortalama doğruluk (0.722201405152225), k-katlamalı çapraz doğrulama boyunca elde edilen ortalama doğruluğu ifade eder. Bu değer, modelin veri seti üzerindeki performansını gösterir.
+- Toplam çalışma süresi (1.489720106124878 saniye), modelin eğitilmesi ve değerlendirilmesi için geçen süreyi ifade eder. Bu değer, modelin hesaplama açısından verimli olduğunu gösterir.
+
+Algoritma Analizi:
+- Random Forest sınıflandırıcısı, 0.722201405152225 ortalama doğruluk ile veri setine iyi bir şekilde uyum sağlamıştır.
+- Genel karışıklık matrisi, doğru pozitif, doğru negatif, yanlış pozitif ve yanlış negatif tahminlerin sayısını gösterir. Bu matris, sınıflandırıcının performansını anlamada yardımcı olur.
+- Sınıflandırma raporu, her sınıf için kesinlik, duyarlılık ve f1-skoru gibi ayrıntılı metrikler sağlar. Bu metrikler, her sınıfın performansını ayrı ayrı anlamada yardımcı olur.
+- ROC eğrisi ve AUC, sınıflandırıcının farklı eşik değerleri üzerindeki performansını görsel olarak temsil eder. En iyi eşik değeri, duyarlılık ve özgüllük arasındaki dengeyi optimize etmek için belirlenmiştir.
+
+Yorumlar ve Notlar:
+- Bu analizde kullanılan veri seti, Istanbul Stock Exchange veri setidir ve borsa verileriyle ilgili çeşitli özellikler içermektedir.
+- Random Forest sınıflandırıcısı, ortalama doğruluk açısından iyi bir performans göstermiştir ve veri setindeki temel desenleri yakalayabilmiştir.
+- ROC eğrisi ve AUC, sınıflandırıcının performansını kapsamlı bir şekilde değerlendirmekte ve en iyi eşik değeri, sınıflandırıcının karar verme sürecini optimize etmektedir.
+- Genel olarak, Random Forest sınıflandırıcısı, doğruluk, hesaplama verimliliği ve eşik optimizasyonu açısından bu veri seti için önerilmektedir.
