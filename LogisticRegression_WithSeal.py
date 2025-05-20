@@ -129,40 +129,58 @@ def logistic_regression_with_seal():
     X = default_of_credit_card_clients.data.features
     y = default_of_credit_card_clients.data.targets
 
+    # `y` verisini NumPy dizisine dönüştür ve boyutunu düzelt
+    y = y.to_numpy().ravel()
+
     # Veriyi eğitim ve test setlerine ayır
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     # Şifrelenmemiş verilerle Logistic Regression
     print("Şifrelenmemiş verilerle Logistic Regression:")
     start_time = time.time()
-    model = LogisticRegression(max_iter=1000)
+    model = LogisticRegression(max_iter=2000)  # max_iter artırıldı
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     unencrypted_time = time.time() - start_time
 
     # Performans değerlendirme (şifrelenmemiş)
+    # Accuracy, modelin doğru tahmin ettiği örneklerin toplam örnek sayısına oranıdır
     unencrypted_accuracy = accuracy_score(y_test, y_pred)
+
+    # Şifrelenmemiş veriler için karışıklık matrisi
+    # Confusion matrix, modelin tahmin performansını sınıf bazında gösteren bir tablodur.
+    # [[TP, FP],  -> [[4552,  135], 4552: Sınıf 0 için doğru tahmin edilen örnekler (TP). /  135: Sınıf 0 için yanlış pozitif tahminler (FP).
+    # [FN, TN]]  ->  [1056,  257]], 1056: Sınıf 1 için yanlış negatif tahminler (FN). /  257: Sınıf 1 için doğru tahmin edilen örnekler (TN).
+    # TP: True Positive, FP: False Positive, FN: False Negative, TN: True Negative
+    # Classification report, modelin her sınıf için doğruluk, hassasiyet, F1 skoru gibi metriklerini gösterir.
     unencrypted_confusion_matrix = confusion_matrix(y_test, y_pred)
+    # Macro Avg: Tüm sınıfların precision, recall ve F1-score değerlerinin basit ortalamasıdır, Sınıf dengesizliğini dikkate almaz.
+    # Weighted Avg: Tüm sınıfların precision, recall ve F1-score değerlerinin, sınıf destek (support) sayısına göre ağırlıklı ortalamasıdır. Sınıf dengesizliğini dikkate alır.
     unencrypted_classification_report = classification_report(y_test, y_pred)
 
     # Veriyi şifrele
     print("\nVeriyi SEAL ile şifreliyoruz...")
-    start_time = time.time()
     encrypted_X_test, secret_key, encoder, scale, context = seal_encrypt_data(X_test.to_numpy())
-    encryption_time = time.time() - start_time
 
     # Şifrelenmiş veriler üzerinde tahmin yap
     print("Şifrelenmiş veriler üzerinde tahmin yapılıyor...")
-    start_time = time.time()
     decrypted_X_test = seal_decrypt_data(encrypted_X_test, secret_key, encoder, scale, context)
     decrypted_X_test = pd.DataFrame(decrypted_X_test, columns=X_test.columns)
     y_pred_encrypted = model.predict(decrypted_X_test)
-    encrypted_time = time.time() - start_time
 
     # Performans değerlendirme (şifrelenmiş)
     encrypted_accuracy = accuracy_score(y_test, y_pred_encrypted)
-    encrypted_confusion_matrix = confusion_matrix(y_test, y_pred_encrypted)
-    encrypted_classification_report = classification_report(y_test, y_pred_encrypted)
+
+    # Şifrelenmiş ve şifrelenmemiş verileri bir dosyaya yazdır
+    output_file = "/Users/mervedonmez/Documents/VSProjects/SealExample3/LogisticRegression_WithSeal_veriler.txt"
+    with open(output_file, "w") as f:
+        f.write("Şifrelenmemiş Veriler:\n")
+        f.write(X_test.to_string(index=False))
+        f.write("\n\nŞifrelenmiş Veriler:\n")
+        for encrypted_row in encrypted_X_test:
+            f.write(str(encrypted_row) + "\n")
+
+    print(f"Şifrelenmiş ve şifrelenmemiş veriler '{output_file}' dosyasına yazıldı.")
 
     # Şifrelenmemiş veriler için olasılık tahminleri
     y_pred_proba_unencrypted = model.predict_proba(X_test)
